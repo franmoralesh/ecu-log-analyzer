@@ -86,7 +86,7 @@ function parseCSV(csv){
             .replace(/\\/g,"")
             .trim()
     );
-
+window.headers = headers;
 const data = [];
 
 for(let i = 1; i < lines.length; i++){
