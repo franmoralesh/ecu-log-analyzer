@@ -126,9 +126,7 @@ console.table(detected);
 
 showColumns(headers, detected);
 const rpm = getColumn(data, detected.rpm);
-console.log(headers.filter(h =>
-    h.toLowerCase().includes("rpm")
-));
+console.table(headers);
 console.log("RPM:");
 
 console.log(rpm);
