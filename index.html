@@ -7,6 +7,7 @@
 
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
     <script src="detector.js"></script>
+    <script src="utils.js"></script>
     <script src="app.js"></script>
     <style>
         body{
@@ -119,13 +120,11 @@ console.log("Señales detectadas:");
 console.table(detected);
 
 showColumns(headers, detected);
-drawGraph(
-    [1,2,3,4,5],
-    [10,25,15,40,35],
-    "Primer gráfico",
-    "X",
-    "Y"
-);
+const rpm = getColumn(data, detected.rpm);
+
+console.log("RPM:");
+
+console.log(rpm);
 }
 
 function showColumns(headers, detected){
