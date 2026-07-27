@@ -1,15 +1,39 @@
 // detector.js
-// Detector inteligente de señales
 
 const SIGNALS = {
     rpm: ["rpm", "engine speed"],
-    boostActual: ["charge air pressure", "actual"],
-    boostTarget: ["charge air pressure", "specified"],
-    iat: ["intake air temperature"],
-    hpfp: ["fuel high pressure"],
-    lpfp: ["fuel low pressure"],
-    lambda: ["lambda", "equivalence ratio"],
-    timing: ["timing advance", "ignition timing"]
+
+    boostActual: [
+        "charge air pressure",
+        "actual"
+    ],
+
+    boostTarget: [
+        "charge air pressure",
+        "specified"
+    ],
+
+    iat: [
+        "intake air temperature"
+    ],
+
+    hpfp: [
+        "fuel high pressure"
+    ],
+
+    lpfp: [
+        "fuel low pressure"
+    ],
+
+    lambda: [
+        "lambda",
+        "equivalence ratio"
+    ],
+
+    timing: [
+        "timing advance",
+        "ignition timing"
+    ]
 };
 
 function detectSignals(headers){
@@ -22,32 +46,18 @@ function detectSignals(headers){
 
         for(const header of headers){
 
-            const text = header.toLowerCase();
+            const h = header.toLowerCase();
 
-            let ok = true;
-
-            for(const word of SIGNALS[signal]){
-
-                if(!text.includes(word.toLowerCase())){
-
-                    ok = false;
-                    break;
-
-                }
-
-            }
+            const ok = SIGNALS[signal].every(word =>
+                h.includes(word.toLowerCase())
+            );
 
             if(ok){
-
                 detected[signal] = header;
                 break;
-
             }
-
         }
-
     }
 
     return detected;
-
 }
