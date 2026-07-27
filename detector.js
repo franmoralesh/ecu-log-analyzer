@@ -1,50 +1,15 @@
 // detector.js
-// Detecta automáticamente las señales importantes del CSV
+// Detector inteligente de señales
 
 const SIGNALS = {
-    rpm: [
-        "Engine RPM",
-        "RPM",
-        "Revolutions"
-    ],
-
-    boostActual: [
-        "Charge air pressure actual",
-        "Boost Pressure Actual",
-        "Boost Actual"
-    ],
-
-    boostTarget: [
-        "Charge air pressure specified",
-        "Boost Pressure Specified",
-        "Boost Target"
-    ],
-
-    iat: [
-        "Intake Air Temperature",
-        "IAT"
-    ],
-
-    hpfp: [
-        "Fuel high pressure actual",
-        "Fuel Rail Pressure",
-        "High Pressure Fuel"
-    ],
-
-    lpfp: [
-        "Fuel low pressure actual",
-        "Low Pressure Fuel"
-    ],
-
-    lambda: [
-        "Lambda",
-        "Fuel/Air commanded equivalence ratio"
-    ],
-
-    timing: [
-        "Timing Advance",
-        "Ignition Timing"
-    ]
+    rpm: ["rpm", "engine speed"],
+    boostActual: ["charge air pressure", "actual"],
+    boostTarget: ["charge air pressure", "specified"],
+    iat: ["intake air temperature"],
+    hpfp: ["fuel high pressure"],
+    lpfp: ["fuel low pressure"],
+    lambda: ["lambda", "equivalence ratio"],
+    timing: ["timing advance", "ignition timing"]
 };
 
 function detectSignals(headers){
@@ -55,11 +20,26 @@ function detectSignals(headers){
 
         detected[signal] = null;
 
-        for(const possibleName of SIGNALS[signal]){
+        for(const header of headers){
 
-            if(headers.includes(possibleName)){
+            const text = header.toLowerCase();
 
-                detected[signal] = possibleName;
+            let ok = true;
+
+            for(const word of SIGNALS[signal]){
+
+                if(!text.includes(word.toLowerCase())){
+
+                    ok = false;
+                    break;
+
+                }
+
+            }
+
+            if(ok){
+
+                detected[signal] = header;
                 break;
 
             }
