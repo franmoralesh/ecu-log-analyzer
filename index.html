@@ -51,34 +51,85 @@
 
 document
 .getElementById("csv")
-.addEventListener("change",readFile);
+.addEventListener("change", loadCSV);
 
-function readFile(e){
+function loadCSV(event){
 
-const file=e.target.files[0];
+    const file = event.target.files[0];
 
-const reader=new FileReader();
+    if(!file) return;
 
-reader.onload=function(event){
+    const reader = new FileReader();
 
-const text=event.target.result;
+    reader.onload = function(e){
 
-const rows=text.split("\n");
+        parseCSV(e.target.result);
 
-const headers=rows[0].split(",");
+    };
 
-console.log(headers);
-
-alert("CSV cargado correctamente.\n\nColumnas detectadas: "+headers.length);
+    reader.readAsText(file);
 
 }
 
-reader.readAsText(file);
+function parseCSV(csv){
+
+    const lines = csv.trim().split(/\r?\n/);
+
+    const headers = lines[0]
+        .split(",")
+        .map(h => h.trim());
+
+    const data = [];
+
+    for(let i = 1; i < lines.length; i++){
+
+        const values = lines[i].split(",");
+
+        const row = {};
+
+        headers.forEach((header,index)=>{
+
+            let value = values[index] ?? "";
+
+            value = value.trim();
+
+            const number = Number(value);
+
+            row[header] = isNaN(number) ? value : number;
+
+        });
+
+        data.push(row);
+
+    }
+
+    console.clear();
+
+    console.log("Columnas:");
+
+    console.table(headers);
+
+    console.log(data);
+
+    showColumns(headers);
+
+}
+
+function showColumns(headers){
+
+    const graph = document.getElementById("graph");
+
+    graph.innerHTML = "<h2>Columnas detectadas</h2>";
+
+    headers.forEach(h=>{
+
+        graph.innerHTML += "<div>"+h+"</div>";
+
+    });
 
 }
 
 </script>
-
 </body>
 
 </html>
