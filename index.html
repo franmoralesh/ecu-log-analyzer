@@ -75,29 +75,27 @@ function loadCSV(event){
 
 function parseCSV(csv){
 
-    const lines = csv.trim().split(/\r?\n/);
+   const lines = csv.trim().split(/\r?\n/);
 
-    const headers = lines[0]
-        .split(",")
-        .map(h => h.trim());
+const headers = splitCSVLine(lines[0])
+    .map(h => h.trim());
 
-    const data = [];
+const data = [];
 
-    for(let i = 1; i < lines.length; i++){
+for(let i = 1; i < lines.length; i++){
 
-        const values = lines[i].split(",");
+    const values = splitCSVLine(lines[i]);
 
-        const row = {};
+    const row = {};
 
-        headers.forEach((header,index)=>{
-
+    headers.forEach((header,index)=>{
             let value = values[index] ?? "";
 
-            value = value.trim();
+    value = value.trim();
 
-            const number = Number(value);
+    const number = Number(value);
 
-            row[header] = isNaN(number) ? value : number;
+    row[header] = isNaN(number) ? value : number;
 
         });
 
