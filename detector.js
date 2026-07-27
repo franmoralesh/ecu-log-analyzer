@@ -1,7 +1,14 @@
 // detector.js
 
 const SIGNALS = {
-    rpm: ["rpm", "engine speed"],
+    rpm: [
+    "rpm",
+    "engine speed",
+    "engine speed (rpm)",
+    "engine rpm",
+    "revolutions",
+    "engine speed (°/min)"
+],
 
     boostActual: [
         "charge air pressure",
